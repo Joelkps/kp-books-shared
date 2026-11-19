@@ -1,0 +1,47 @@
+// Cloudflare config for KP Books.
+// Fill in the 4 lines marked ← (setup guide steps 3 and 6). Everything else can stay as it is.
+{
+  "name": "kp-books",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-01-15",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // The app screens (HTML, CSS, JS). Anything not found falls back to index.html.
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+
+  // Your books: a small SQL database
+  "d1_databases": [
+    { "binding": "DB", "database_name": "kp-books", "database_id": "PASTE-YOUR-DATABASE-ID-HERE" }   // ← step 3
+  ],
+
+  // Bill PDFs, receipt photos and backups
+  "r2_buckets": [
+    { "binding": "FILES", "bucket_name": "kp-books-files" }
+  ],
+
+  // Bank sync every 3 hours (NZ Akahu feeds only), weekly backup on Sunday night
+  "triggers": { "crons": ["15 */3 * * *"] },
+
+  // Settings that aren't secret. Secrets (API keys) go in the Cloudflare dashboard, see the guide.
+  // Change these here, not in the dashboard: dashboard changes get overwritten when the app updates.
+  "vars": {
+    "TEAM_DOMAIN": "",                       // ← step 6, like https://yourname.cloudflareaccess.com
+    "POLICY_AUD": "",                        // ← step 6, the long code Cloudflare shows
+    "ALLOWED_EMAILS": "",                    // ← your email (comma between several). Only these can sign in
+    "DEFAULT_BIZ": "kp",
+    "AI_MODEL_FAST": "claude-haiku-5-5",     // reads bills and receipts
+    "AI_MODEL_SMART": "claude-sonnet-5-5",   // reads long supplier invoices and price lists
+    "AI_BUDGET_USD": "10",                   // warn on Home when Claude costs pass this in a month (US$)
+    // Optional, for bills by email (guide step 11): who can send bills in. "@domain.com" allows a whole domain
+    "EMAIL_ALLOWED_SENDERS": "",
+    // Optional, for Shopify (guide step 10). Leave empty: it's worked out from the app's address
+    "HOOKS_ORIGIN": ""
+  },
+
+  "observability": { "enabled": true }
+}

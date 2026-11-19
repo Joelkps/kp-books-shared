@@ -1,0 +1,13 @@
+// Cloudflare config for kp-hooks, the Shopify order receiver (see worker/hooks.js). Only needed
+// if you sell on Shopify (setup guide step 10). Same database as the main app: paste the same ID.
+{
+  "name": "kp-hooks",
+  "main": "worker/hooks.js",
+  "compatibility_date": "2026-01-15",
+  "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [
+    { "binding": "DB", "database_name": "kp-books", "database_id": "PASTE-YOUR-DATABASE-ID-HERE" }
+  ],
+  "vars": { "DEFAULT_BIZ": "kp" },
+  "observability": { "enabled": true }
+}

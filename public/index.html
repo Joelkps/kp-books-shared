@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>KP Books</title>
+  <meta name="theme-color" content="#2c5a43">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="KP Books">
+  <!-- use-credentials: send the sign-in cookie, otherwise Cloudflare Access blocks the app file and phones can't install it -->
+  <link rel="manifest" href="/manifest.webmanifest" crossorigin="use-credentials">
+  <link rel="icon" href="/icons/favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <main id="view"><section><div class="empty">Loading your books…</div></section></main>
+  <div class="sheet" id="sheet" hidden><div class="sheet-card" id="sheet-card" role="dialog" aria-modal="true"></div></div>
+  <div class="toast" id="toast" role="status" hidden></div>
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>

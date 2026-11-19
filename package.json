@@ -1,0 +1,10 @@
+{
+  "name": "kp-books",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deploy": "npx wrangler deploy",
+    "dev": "node --experimental-sqlite dev/server.mjs",
+    "test": "node --experimental-sqlite dev/test.mjs"
+  }
+}
