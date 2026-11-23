@@ -2,7 +2,7 @@
 
 Small-business books that run on your own Cloudflare account: invoices and quotes, bills read by Claude, bank matching, stock and costs, GST/BAS returns, reports and an accountant pack. Works for New Zealand and Australia out of the box, and anywhere else with your own tax settings.
 
-**Setting it up?** Follow [SETUP.md](SETUP.md). About an hour, once.
+**Setting it up?** Follow [SETUP.md](SETUP.md), step by step. About an hour, once. Extras (updates, emailing bills in, Shopify) are in [EXTRAS.md](EXTRAS.md).
 
 **Your data is yours.** It lives only in your Cloudflare account. Nobody else, including whoever shared this app with you, can see it.
 

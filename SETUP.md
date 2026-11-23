@@ -1,160 +1,250 @@
 # KP Books: setup guide
 
-About an hour, once. Do it on a laptop. After that, the app runs by itself and updates with one click.
+Welcome! This gets your own copy of KP Books running. Your data stays in your own accounts, and nobody else can see it.
 
-**What you end up with:** your own app at `https://kp-books.<your-name>.workers.dev`. Only your email can sign in, it installs on your phone like a normal app, and Claude reads your bills and receipts for you.
-
-**Running cost**
-- Cloudflare: free. R2 storage asks for a card, but a small business stays inside the free allowance.
-- Claude reading bills: about 1 to 2 cents each, prepaid. US$10 of credit lasts months.
-- Optional: a .com for emailing bills in, about US$11 a year.
-
-Steps 1 to 9 get you running. Steps 10 to 12 are optional extras.
+- **Time:** about an hour. Do it in one go if you can.
+- **Use a laptop or computer**, not your phone. You install it on your phone at the end.
+- **Go in order.** Don't skip ahead.
+- **Stuck?** Take a screenshot of the screen and send it to whoever shared this with you.
 
 ---
 
-## 1. Make three accounts
+## Before you start: a notes card
 
-- **GitHub**, github.com: stores your copy of the app. Free.
-- **Cloudflare**, dash.cloudflare.com/sign-up: runs the app. Free.
-- **Anthropic Console**, console.anthropic.com: lets Claude read your bills. Pay as you go. This is separate from any Claude chat subscription, and its credit is separate too.
+Open a blank note (Notes app, Word, or paper). As you go, you'll copy 4 things into it. Set it up like this now:
 
-## 2. Get your own copy of the app
+```
+1. Database ID:
+2. Team domain:
+3. AUD code:
+4. My app address:
+```
 
-1. Accept the GitHub invite you were sent (check your email), then open the **kp-books** repository it links to.
-2. Click **Fork** (top right). Set **Repository name** to `kp-books`, keep yourself as the owner, then click **Create fork**.
+---
 
-You now have your own copy at `github.com/<you>/kp-books`. Everything below uses **your** copy.
+## Step 1. Make 3 accounts (15 minutes)
 
-## 3. Create the database and file storage
+Make each account with your **business email**. Write down your passwords somewhere safe.
 
-In the Cloudflare dashboard:
+**1a. GitHub** (where the app's files live)
+1. Go to **github.com**
+2. Click **Sign up** (top right) and follow the steps.
 
-1. Left menu: **Storage & databases**, then **D1 SQL database**, then **Create**. Name it `kp-books`, then **Create**.
-2. Copy the **Database ID** (a long code like `3f2a9c…`).
-3. In **your** GitHub copy, click `wrangler.jsonc`, then the **pencil** (Edit). Replace `PASTE-YOUR-DATABASE-ID-HERE` with the ID.
-4. While you're in there, put your email in `"ALLOWED_EMAILS": ""`, like `"ALLOWED_EMAILS": "you@yourbusiness.com.au"`.
-5. Click **Commit changes**, then **Commit changes** again.
-6. Back in Cloudflare: **Storage & databases**, then **R2 object storage**. Switch R2 on (add a card if asked), then **Create bucket** named `kp-books-files`.
+**1b. Cloudflare** (runs the app on the internet)
+1. Go to **dash.cloudflare.com/sign-up**
+2. Sign up. If it asks what you want to do, click **Skip** or close it.
 
-## 4. Put the app online
+**1c. Anthropic Console** (lets Claude read your bills and receipts)
+1. Go to **console.anthropic.com**
+2. Sign up.
+3. In the left menu, click **Billing**. Add **US$10** of credit. This lasts months, because each bill costs about 1 or 2 cents.
 
-1. Cloudflare: **Workers & Pages**, then **Create application**, then **Import a repository**. Click **Continue with GitHub** and allow access to your `kp-books` copy.
-2. Pick **kp-books**. On **Set up your application**:
-   - **Project name:** `kp-books` (exactly)
-   - **Build command:** leave empty
+Even if you already pay for Claude, this is a separate account with separate credit.
+
+✅ **Done when:** you can log in to all three.
+
+---
+
+## Step 2. Get your own copy of the app (2 minutes)
+
+1. Open the link you were sent: **github.com/Joelkps/kp-books-shared**
+2. Make sure you're logged in to GitHub.
+3. Near the top right, click the **Fork** button.
+4. On the next page, in **Repository name**, type: `kp-books`
+5. Click the green **Create fork** button.
+
+✅ **Done when:** you see a page titled **your-name / kp-books**. That's your own copy. Keep this tab open.
+
+---
+
+## Step 3. Make your database (5 minutes)
+
+**3a. Create it**
+1. Go to **dash.cloudflare.com** and log in.
+2. In the left menu, click **Storage & databases**, then **D1 SQL database**.
+3. Click **Create** (blue button).
+4. In **Name**, type: `kp-books`
+5. Click **Create**.
+6. You'll see a **Database ID**: a long code of letters and numbers. Click the copy icon next to it and **paste it into your notes card as #1**.
+
+**3b. Make file storage** (for bill photos and PDFs)
+1. In the left menu, click **Storage & databases**, then **R2 object storage**.
+2. If it asks you to switch R2 on, do it. It may ask for a card. You won't be charged at small-business size.
+3. Click **Create bucket**.
+4. In **Bucket name**, type: `kp-books-files`
+5. Click **Create bucket**.
+
+✅ **Done when:** you have the Database ID in your notes.
+
+---
+
+## Step 4. Put your details into the app (5 minutes)
+
+1. Go back to your GitHub tab (**your-name / kp-books**).
+2. In the list of files, click **wrangler.jsonc**.
+3. Click the **pencil icon ✏️** (top right of the file) to edit it.
+4. Find this line:
+   ```
+   "database_id": "PASTE-YOUR-DATABASE-ID-HERE"
+   ```
+   Select only the words **PASTE-YOUR-DATABASE-ID-HERE** and paste your **Database ID (#1)** over them. Keep the quote marks `"` on both sides.
+5. Find this line:
+   ```
+   "ALLOWED_EMAILS": "",
+   ```
+   Click between the two quote marks and type your email, so it looks like:
+   ```
+   "ALLOWED_EMAILS": "you@yourbusiness.com.au",
+   ```
+6. Click the green **Commit changes** button (top right). A box pops up. Click **Commit changes** again.
+
+✅ **Done when:** the file shows your Database ID and email.
+
+Don't change anything else in this file.
+
+---
+
+## Step 5. Put the app online (5 minutes)
+
+1. Go to **dash.cloudflare.com**.
+2. In the left menu, click **Workers & Pages**.
+3. Click **Create application** (or **Create**).
+4. Choose **Import a repository**.
+5. Click **Continue with GitHub**, and allow Cloudflare to see your **kp-books** copy.
+6. Pick **kp-books** from the list.
+7. On the **Set up your application** page, fill it in **exactly** like this:
+   - **Project name:** `kp-books`
+   - **Build command:** leave it empty
    - **Deploy command:** `npx wrangler deploy`
-   - **Enable Preview builds:** turn **off**
-   - **Protect with Cloudflare Access:** leave off (step 5 does it properly)
-3. Click **Deploy** and wait for the green tick (about a minute).
+   - **Enable Preview builds:** click it so it turns **off** (grey)
+   - **Protect with Cloudflare Access:** leave it **off**
+8. Click **Deploy**.
+9. Wait for a **green tick ✅**. It takes about 1 minute.
 
-The app is online but shows nothing yet. It refuses to load any data until step 5 is done, so nothing is exposed.
+On the page that opens, you'll see an address ending in **.workers.dev**, like `kp-books.yourname.workers.dev`. **Write it in your notes as #4.**
 
-## 5. Lock it to your email
-
-1. Cloudflare: **Workers & Pages**, then **kp-books**. Click the **Access** tab in the top row. On older screens it's **Settings**, then **Domains & Routes**, then **Enable Cloudflare Access** next to the `workers.dev` address.
-2. Turn Access **on** for the Worker's URLs and save. The default rule lets in only people on your Cloudflare account, which is just you.
-3. Cloudflare usually shows two values when you turn it on. Copy both:
-   - the **team domain**, like `https://yourname.cloudflareaccess.com`
-   - the **AUD** tag, a long code
-
-   If you missed them, here's where to find them again:
-   - **AUD:** **Zero Trust**, then **Access** (or **Access controls**), then **Applications**. Open the kp-books one; the AUD tag is in its details.
-   - **Team domain:** **Zero Trust**, then **Settings**. It's listed next to your team name.
-4. In your GitHub copy, edit `wrangler.jsonc` again. Paste them between the quotes on `"TEAM_DOMAIN": ""` and `"POLICY_AUD": ""`, then click **Commit changes**. Cloudflare updates the app by itself in about a minute.
-5. In **Zero Trust**, then **Access**, then **Applications**, open the kp-books application, then **Edit**:
-   - Set **Session duration** to **1 month** so you're not signing in every day. It may be on the **Additional settings** tab.
-   - Click **Save**.
-
-## 6. Let Claude read your bills
-
-1. console.anthropic.com: **Billing**, then add US$10 of credit.
-2. **API keys**, then **Create key**. Name it `kp-books` and copy it. It's only shown once.
-3. Cloudflare: **Workers & Pages**, then **kp-books**, then **Settings**. Find **Variables and Secrets** near the top. Don't use the one under **Build**.
-4. Click **+ Add**. **Type:** Secret. **Name:** `ANTHROPIC_API_KEY`. **Value:** paste the key. Click **Deploy**.
-
-Never paste the key into a chat or an email. It only goes into Cloudflare.
-
-## 7. Open the app and set up your business
-
-1. Go to `https://kp-books.<your-name>.workers.dev`. Cloudflare emails you a sign-in code.
-2. The **Welcome to KP Books** screen opens. Fill in:
-   - your business name, legal name, ABN (or GST number), address, bank account (BSB and account number in Australia)
-   - **What the business does**, one line. Claude uses it to read your bills well.
-   - **Country**: picking **Australia** fills in GST 10%, quarterly BAS (G1, 1A, 1B), ATO due dates, a July tax year and AUD. Change anything that's different for you. For example, monthly BAS: set **Returns every** to **month**.
-3. Click **Start using KP Books**.
-4. Optional: **Setup**, then **Add logo** (PNG or JPG) to put it on your invoices.
-
-## 8. Install it on your phone
-
-- **iPhone:** open the address in Safari, tap **Share**, then **Add to Home Screen**.
-- **Android:** open it in Chrome, tap **⋮**, then **Install app**.
-
-## 9. Bring in your bank transactions
-
-Australian banks don't have a free feed for this app, so you import a statement:
-
-1. In your online banking (CommBank, NAB, ANZ, Westpac and most others), export transactions as **CSV**.
-2. In the app: **Bank**, then **Statement CSV**, then pick the file.
-3. The app matches payments to your invoices and bills, and remembers how you code everything else. Do it weekly or monthly. Importing the same days twice doesn't double up.
-
-(New Zealand: the Akahu bank feed works automatically. Ask for those steps.)
+If you open it now it won't work yet. That's normal: it stays locked until step 6.
 
 ---
+
+## Step 6. Lock the app so only you can get in (10 minutes)
+
+This is the most fiddly step. Go slowly.
+
+**6a. Turn on the lock**
+1. In Cloudflare, go to **Workers & Pages**, then click **kp-books**.
+2. Along the top there's a row of tabs. Click **Access**.
+   (If there's no Access tab: click **Settings**, then **Domains & Routes**, then next to the `.workers.dev` address click **Enable Cloudflare Access**.)
+3. Switch Access **on** and click **Save** (or **Enable**).
+
+**6b. Copy two codes**
+
+When you switch it on, Cloudflare usually shows two codes. Copy them into your notes:
+- **Team domain**, like `https://something.cloudflareaccess.com`: **#2**
+- **AUD** (a very long code): **#3**
+
+If you didn't see them, find them here:
+- **#2 Team domain:** left menu, **Zero Trust**, then **Settings**. It's next to your team name. Copy the whole thing, starting `https://`
+- **#3 AUD:** left menu, **Zero Trust**, then **Access** (or **Access controls**), then **Applications**. Click the **kp-books** one. Look for **Application Audience (AUD) Tag** and copy it.
+
+**6c. Put the codes in the app**
+1. Go back to GitHub, open **wrangler.jsonc**, then click the **pencil ✏️**.
+2. Find `"TEAM_DOMAIN": "",` and paste **#2** between the quote marks.
+3. Find `"POLICY_AUD": "",` and paste **#3** between the quote marks.
+
+   They should look like:
+   ```
+   "TEAM_DOMAIN": "https://something.cloudflareaccess.com",
+   "POLICY_AUD": "4f8a...a very long code...",
+   ```
+4. Click **Commit changes**, then **Commit changes** again.
+5. Wait 2 minutes. Cloudflare updates the app by itself.
+
+**6d. Stay signed in for a month**
+1. Cloudflare left menu: **Zero Trust**, then **Access**, then **Applications**.
+2. Click the **kp-books** application, then **Edit** (or **Configure**).
+3. Find **Session duration** (it may be on the **Additional settings** tab) and pick **1 month**.
+4. Click **Save**.
+
+✅ **Done when:** you open your app address (**#4**) in a private or incognito window and get a Cloudflare sign-in page asking for your email.
+
+---
+
+## Step 7. Let Claude read your bills (5 minutes)
+
+1. Go to **console.anthropic.com**.
+2. In the left menu, click **API keys**, then **Create key**.
+3. Name it `kp-books` and click **Create**.
+4. **Copy the key now.** It's only shown once. Don't put it in your notes, an email or a chat.
+5. Go to Cloudflare: **Workers & Pages**, then **kp-books**, then the **Settings** tab.
+6. Find **Variables and Secrets**. It's near the **top** of Settings. Don't use the one lower down under **Build**.
+7. Click **+ Add**, then fill it in:
+   - **Type:** Secret
+   - **Variable name:** `ANTHROPIC_API_KEY`
+   - **Value:** paste the key
+8. Click **Deploy** (or **Add variable and deploy**).
+
+✅ **Done when:** `ANTHROPIC_API_KEY` shows in the list, with its value hidden.
+
+---
+
+## Step 8. Open the app and set up your business (10 minutes)
+
+1. Go to your app address (**#4**).
+2. Type your email. Cloudflare emails you a code, so type it in.
+3. You'll see **Welcome to KP Books**. Fill in:
+   - **Trading name** and **Legal name on invoices**
+   - **ABN**
+   - **Address**, **email** and **phone** for your invoices
+   - **What the business does**: one line, like `builds and sells saunas in Sydney`. Claude uses it to read your bills properly.
+   - **Bank account name** and **BSB and account number**, which go on your invoices
+4. Under **Country and tax**, pick **Australia**. It fills in everything for you: 10% GST, BAS every 3 months, ATO due dates and a July tax year.
+   - If you do BAS **monthly**, change **Returns every** to **month**.
+   - If you're on **accrual** GST (most small businesses are on cash), change the basis.
+   - Not sure? Leave it, and ask your accountant later. You can change it any time in **Setup**.
+5. Click **Start using KP Books**.
+6. Optional: go to **Setup**, then **Add logo**, to put your logo on invoices.
+
+✅ **Done when:** you see the Home screen with your business name at the top.
+
+---
+
+## Step 9. Put it on your phone (2 minutes)
+
+**iPhone**
+1. Open **Safari** (it must be Safari) and go to your app address (**#4**).
+2. Sign in.
+3. Tap the **Share** button (square with an arrow), then **Add to Home Screen**, then **Add**.
+
+**Android**
+1. Open **Chrome** and go to your app address.
+2. Sign in.
+3. Tap **⋮** (top right), then **Install app** (or **Add to Home screen**).
+
+🎉 **You're set up.**
+
+---
+
+## Using it
+
+- **Bank transactions:** in your online banking, download your transactions as a **CSV file**. In the app, go to **Bank**, then **Statement CSV**, and pick the file. Do this weekly or monthly. The app matches payments to your invoices and bills, and learns as you go.
+- **Bills and receipts:** go to **Bills**, then **Upload**, or **Snap receipt** on your phone. Claude reads them for you. Check the figures and save.
+- **Invoices and quotes:** tap **+ New** at the top.
+- **BAS time:** go to **More**, then **GST**. It shows G1, 1A and 1B ready to copy into ATO online services.
+- **Your accountant:** go to **Reports**, then **Accountant pack**, for one Excel file covering the year.
+
+This app isn't tax advice. Have your accountant check your tax settings and your first BAS.
 
 ## Optional extras
 
-### 10. Shopify orders arrive by themselves
+See **[EXTRAS.md](EXTRAS.md)** when you're ready for: Shopify orders arriving by themselves, emailing bills straight into the app, and getting updates.
 
-The app is locked to you, so Shopify sends orders to a tiny second app, **kp-hooks**, that only accepts orders signed with your Shopify key.
+## If something's not right
 
-1. In GitHub, edit `wrangler.hooks.jsonc` and paste the same database ID as in step 3. Commit.
-2. Cloudflare: **Workers & Pages**, then **Create application**, then **Import a repository**, then **kp-books** again:
-   - **Project name:** `kp-hooks`
-   - **Build command:** empty
-   - **Deploy command:** `npx wrangler deploy -c wrangler.hooks.jsonc`
-   - **Enable Preview builds:** off
-   - Click **Deploy**.
-3. In the app: **Setup**. Copy the **Shopify webhook address**.
-4. Shopify admin: **Settings**, then **Notifications**, then **Webhooks**, then **Create webhook**. Make three: **Order payment**, **Order update** and **Order cancellation**. Each one uses Format **JSON**, your address, and version **Latest**.
-5. Under the webhook list, copy the **signing secret** (clipboard icon).
-6. Cloudflare: **kp-hooks** (not kp-books), then **Settings**, then **Variables and Secrets**, then **+ Add**. Secret `SHOPIFY_WEBHOOK_SECRET`, paste, **Deploy**.
-7. Test: in Shopify, click **⋯** on Order payment, then **Send test notification**. A test order appears in **Sales**. Delete it.
-8. Past orders: Shopify **Orders**, then **Export**, then **CSV for Excel**. In the app: **Sales**, then **Import sales**.
-
-### 11. Email bills in
-
-1. Cloudflare: **Domain Registration**, then **Register Domains**. Buy a cheap .com, like `yourbizbooks.com`. Verify your email when asked.
-2. Open the domain, then **Email**, then **Email Routing**, then **Get started**, then **Add records and enable**. Skip any destination address.
-3. **Routing rules**, then **Create address**: `bills`, **Send to a Worker**, `kp-books`, **Save**.
-4. In GitHub, edit `wrangler.jsonc`: put your email(s) in `"EMAIL_ALLOWED_SENDERS"`. Only these can send bills in, and everything else bounces. Commit.
-5. Email a receipt to `bills@yourbizbooks.com`. It shows up under **Bills**, then **To check**, already read.
-6. Optional: in Gmail, create a filter **From** your suppliers, then **Forward it to** the bills address.
-
-### 12. Getting updates
-
-When the app is improved, you'll be told. Then:
-1. Open your copy on GitHub. It says "This branch is X commits behind".
-2. Click **Sync fork**, then **Update branch**.
-3. Cloudflare updates the app by itself in a minute. On your phone, close and reopen the app.
-
-If GitHub says there's a conflict in `wrangler.jsonc`, keep your version of that file. It holds your own settings.
-
----
-
-## Good to know
-
-- **Tax settings** are in **Setup**, under **Country and tax**: GST rate, how often you file, when periods end, due dates, cash or accrual basis, tax year, income tax set-aside %, asset write-off amount and depreciation. Australian presets are a starting point (for example, the instant asset write-off amount changes between years), so check them with your accountant.
-- **Filed returns:** for a BAS lodged before you used the app, open **GST**, go back to that quarter, click **Enter filed figures** and type G1, G2, 1A and 1B. The app then shows the official figures for that quarter.
-- **Your accountant:** **Reports**, then **Accountant pack** gives one Excel file for the year. **Receipts** downloads every receipt as a zip.
-- **Backups:** made every Sunday night. **Setup**, then **Download backup** any time.
-- **Hide margins:** the eye button at the top hides costs and margins when you're showing someone the app.
-
-This app isn't tax advice. Have your accountant check your setup and first return.
-
-## If something goes wrong
-
-- **"Login isn't set up yet":** step 5 isn't finished. Check `TEAM_DOMAIN` and `POLICY_AUD` in `wrangler.jsonc`.
-- **Claude doesn't read bills:** the key went under **Build** variables instead of **Variables and Secrets**, or the Console has no credit.
-- **A setting you changed in the Cloudflare dashboard disappeared:** plain settings live in `wrangler.jsonc`. Only secrets (keys) go in the dashboard.
-- **The phone says it can't install:** open the address in Safari (iPhone) or Chrome (Android), sign in first, then install.
+| What you see | What to do |
+|---|---|
+| "Login isn't set up yet" | Step 6c isn't done, or a code has a typo. Check `TEAM_DOMAIN` and `POLICY_AUD` in wrangler.jsonc. |
+| The deploy in step 5 failed (red cross) | Check step 4: the Database ID must be inside the quote marks with no spaces. |
+| Claude doesn't read bills | Step 7: the key must be under **Variables and Secrets** at the top, not **Build**. Check your Anthropic credit too. |
+| Your phone says it can't install | Use Safari (iPhone) or Chrome (Android), and sign in first. |
+| Anything else | Screenshot it and send it to whoever shared this app with you. |
