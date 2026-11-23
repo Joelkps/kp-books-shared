@@ -3,7 +3,7 @@ import { S, localSet } from "../store.js";
 import { register, render as rerender } from "../app.js";
 import { esc, money, moneyShort, icon, pill } from "../ui.js";
 import { todayStr, periodKeyFor, periodLabel, shiftPeriod, gstReturn, gstDueDate, daysBetween, fmtDate, fmtShort,
-  invoicePay, invoiceCalc, makeProductFinder, taxSetAside, profitAndLoss, counts, stockOnHand, productCosts, suggestForTxn, r2, taxYear, MONTHS, pad } from "../calc.js";
+  invoicePay, invoiceCalc, makeProductFinder, taxSetAside, profitAndLoss, counts, stockOnHand, productCosts, suggestForTxn, r2, taxYear, MONTHS, pad, TAX } from "../calc.js";
 import { salesRow } from "./sales.js";
 import { firstRun } from "./setup.js";
 
@@ -119,7 +119,7 @@ function render() {
   ${salesHero(today)}
 
   <section class="tiles">
-    <a class="tile" href="#bank"><span class="label">In the bank</span><span class="big">${accts.length ? money(bal) : "–"}</span><span class="small muted">${accts.length ? `${accts.length} account${accts.length > 1 ? "s" : ""}` : "Connect your bank in Setup"}</span></a>
+    <a class="tile" href="#bank"><span class="label">In the bank</span><span class="big">${accts.length ? money(bal) : "–"}</span><span class="small muted">${accts.length ? `${accts.length} account${accts.length > 1 ? "s" : ""}` : TAX.country === "NZ" ? "Connect your bank in Setup" : "Import a statement in Bank"}</span></a>
     <a class="tile" href="#sales"><span class="label">Owed to you</span><span class="big">${money(owedSum)}</span><span class="small muted">${owed.length ? `${owed.length} invoice${owed.length > 1 ? "s" : ""}${late.length ? `, ${late.length} late` : ""}` : "All paid up"}</span></a>
     <a class="tile" href="#gst"><span class="label">${g.b15 >= 0 ? "GST to pay" : "GST refund"} · ${periodLabel(key)}</span><span class="big ${g.b15 > 0 ? "owe" : ""}">${money(Math.abs(g.b15))}</span><span class="small muted">Due ${fmtShort(g.due)}, ${dleft} day${dleft === 1 ? "" : "s"} away</span></a>
     ${stockTile()}

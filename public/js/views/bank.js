@@ -50,7 +50,8 @@ function render_() {
         <label class="check small"><input type="checkbox" data-change="acct-use" data-id="${esc(a._id)}" ${a.use ? "checked" : ""}> Use for ${esc(S.settings.businessName)}</label>
       </div>`).join("")}</div>`
       : bank ? `<div class="banner"><p>Tap Sync to bring in your accounts, then switch on the ones this business uses.</p></div>`
-      : `<div class="banner"><p>Connect your bank through Akahu (free) to have transactions arrive by themselves. See Setup. Until then, import a CSV statement from your online banking.</p></div>`}
+      : TAX.country === "NZ" ? `<div class="banner"><p>Connect your bank through Akahu (free) to have transactions arrive by themselves. See Setup. Until then, import a CSV statement from your online banking.</p></div>`
+      : `<div class="banner"><p>Download your transactions as a CSV file from your online banking, then click <strong>Statement CSV</strong>. Do it weekly or monthly. Importing the same days twice won't double up.</p></div>`}
     <div class="seg" role="tablist">
       <button role="tab" data-action="bank-tab" data-tab="new" aria-selected="${V.tab === "new"}">To check${fresh.length ? ` (${fresh.length})` : ""}</button>
       <button role="tab" data-action="bank-tab" data-tab="done" aria-selected="${V.tab === "done"}">Done</button>

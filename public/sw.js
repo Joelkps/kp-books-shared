@@ -1,6 +1,6 @@
 // Service worker: keeps a copy of the app's screens so it opens instantly and
 // still loads on a weak signal. Your data always comes fresh from the server.
-const CACHE = "kp-books-v31";   // bump this when you change files, to refresh phones
+const CACHE = "kp-books-v32";   // bump this when you change files, to refresh phones
 const SHELL = ["/", "/index.html", "/css/app.css", "/js/main.js", "/js/app.js", "/js/store.js", "/js/ui.js", "/js/calc.js", "/js/pdf.js", "/js/csv.js", "/js/pack.js",
   "/js/views/home.js", "/js/views/sales.js", "/js/views/bills.js", "/js/views/bank.js", "/js/views/products.js", "/js/views/gst.js", "/js/views/reports.js", "/js/views/setup.js", "/js/views/orders.js",
   "/manifest.webmanifest", "/icons/icon-192.png"];

@@ -101,7 +101,7 @@ function render_() {
       <span class="label">Connections</span>
       <div class="list flat">
         ${status(i.shopify, "Shopify orders arrive live" + (S.me?.shopifyLast ? ` <span class="small muted">· last ${esc(new Date(S.me.shopifyLast).toLocaleString("en-NZ", { dateStyle: "medium", timeStyle: "short" }))}</span>` : ""))}
-        ${status(i.bank, "Bank feed (Akahu)")}
+        ${TAX.country === "NZ" || i.bank ? status(i.bank, "Bank feed (Akahu)") : ""}
         ${status(i.ai, "Claude reads bills and supplier invoices")}
       </div>
       <p class="small muted">Shopify webhook address for this business:</p>
